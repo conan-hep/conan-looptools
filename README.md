@@ -9,7 +9,7 @@
 
 LoopTools can be installed with conan by running:
 
-    conan install looptools/2.15@conan/stable
+    conan install LoopTools/2.15@conan/stable
 
 Alternatively a `conanfile.txt` file can be created in your project
 directory with the following content:
