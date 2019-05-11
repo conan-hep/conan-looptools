@@ -1,0 +1,7 @@
+[requires]
+LoopTools/2.15@conan/stable
+
+[generators]
+cmake
+make
+pkg_config
