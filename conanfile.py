@@ -2,8 +2,8 @@ from conans import ConanFile, AutoToolsBuildEnvironment, tools
 from conans.errors import ConanException
 
 
-class LooptoolsConan(ConanFile):
-    name = "looptools"
+class LoopToolsConan(ConanFile):
+    name = "LoopTools"
     version = "2.15"
     license = "LGPL-3.0-only"
     author = "Alexander Voigt"
