@@ -1,5 +1,7 @@
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 from conans.errors import ConanException
+from conans.model.version import Version
+from conans.tools import SystemPackageTool
 
 
 class LoopToolsConan(ConanFile):
