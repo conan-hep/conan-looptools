@@ -4,5 +4,7 @@ project(PackageTest C Fortran)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+find_package(LoopTools REQUIRED)
+
 add_executable(test_looptools test_looptools.F)
-target_link_libraries(test_looptools ${CONAN_LIBS})
+target_link_libraries(test_looptools LoopTools::LoopTools)

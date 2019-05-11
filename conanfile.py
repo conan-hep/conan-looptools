@@ -1,3 +1,4 @@
+import os
 from conans import ConanFile, AutoToolsBuildEnvironment, tools
 from conans.errors import ConanException
 from conans.model.version import Version
@@ -14,6 +15,7 @@ class LoopToolsConan(ConanFile):
     topics = ("HEP")
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
+    exports = ["LICENSE", "FindLoopTools.cmake"]
     default_options = "shared=False"
     generators = ["cmake", "make", "pkg_config"]
     _source_subfolder = "LoopTools-{}".format(version)
@@ -57,13 +59,17 @@ class LoopToolsConan(ConanFile):
                 self.run("brew link --overwrite gcc")
 
     def package(self):
-        self.copy("*.h", dst="include", src="src")
+        for header in ["looptools.h", "clooptools.h"]:
+            self.copy(header, dst="include",
+                      src="{}{}build".format(self._source_subfolder, os.sep),
+                      keep_path=False, symlinks=False)
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
         self.copy("COPYING", src=self._source_subfolder, dst="licenses", keep_path=False)
+        self.copy('FindLoopTools.cmake', '.', '.')
 
     def package_info(self):
         self.cpp_info.libs = ["ooptools"]
