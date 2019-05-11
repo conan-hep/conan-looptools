@@ -1,6 +1,6 @@
 env:
    global:
-     - CONAN_REFERENCE: "looptools/2.15"
+     - CONAN_REFERENCE: "LoopTools/2.15"
      - CONAN_USERNAME: "user"
      - CONAN_LOGIN_USERNAME: "user"
      - CONAN_CHANNEL: "channel"
