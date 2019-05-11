@@ -8,3 +8,6 @@ find_package(LoopTools REQUIRED)
 
 add_executable(test_cmake_fortran test_looptools.F)
 target_link_libraries(test_cmake_fortran LoopTools::LoopTools)
+
+add_executable(test_cmake_cpp test_looptools.cpp)
+target_link_libraries(test_cmake_cpp LoopTools::LoopTools gfortran)
