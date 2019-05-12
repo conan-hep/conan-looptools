@@ -45,8 +45,10 @@ class LoopToolsConan(ConanFile):
 
         if tools.os_info.is_linux:
             if tools.os_info.with_pacman or tools.os_info.with_yum:
+                installer.install("gcc")
                 installer.install("gcc-fortran")
             else:
+                installer.install("gcc")
                 installer.install("gfortran")
                 versionfloat = Version(self.settings.compiler.version.value)
                 if self.settings.compiler == "gcc":
@@ -57,7 +59,7 @@ class LoopToolsConan(ConanFile):
 
         if tools.os_info.is_macos and Version(self.settings.compiler.version.value) > "7.3":
             try:
-                installer.install("gcc", update=True, force=True)
+                installer.install("gcc")
             except Exception:
                 self.output.warn("brew install gcc failed. Tying to fix it with 'brew link'")
                 self.run("brew link --overwrite gcc")
