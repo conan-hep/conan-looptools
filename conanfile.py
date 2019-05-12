@@ -33,6 +33,10 @@ class LoopToolsConan(ConanFile):
             autotools = AutoToolsBuildEnvironment(self)
             env_build_vars = autotools.vars
             env_build_vars['CC'] = 'gcc' # clang gives relocation errors
+            if self.options.fPIC:
+                env_build_vars['FFLAGS'] = '-fPIC'
+                env_build_vars['CFLAGS'] = '-fPIC'
+                env_build_vars['CXXFLAGS'] = '-fPIC'
             autotools.configure(vars=env_build_vars)
             autotools.make()
 
