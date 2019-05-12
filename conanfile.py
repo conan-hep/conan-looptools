@@ -14,9 +14,9 @@ class LoopToolsConan(ConanFile):
     description = "Package for the evaluation of scalar and tensor one-loop integrals"
     topics = ("HEP")
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False]}
+    options = {"fPIC": [True, False]}
     exports = ["LICENSE", "FindLoopTools.cmake"]
-    default_options = ("shared=False", "fPIC=True")
+    default_options = ("fPIC=True")
     generators = ["cmake", "make", "pkg_config"]
     _source_subfolder = "LoopTools-{}".format(version)
 
