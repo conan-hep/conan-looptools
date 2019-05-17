@@ -2,6 +2,10 @@
 
 ## Conan package recipe for [*LoopTools*](http://www.feynarts.de/looptools/)
 
+T. Hahn, M. Perez-Victoria, *Automatized one loop calculations in
+four-dimensions and D-dimensions*,
+[*Comput.Phys.Commun.* **118** (1999) 153-165](https://inspirehep.net/record/474106)
+[arXiv:hep-ph/9807565](https://arxiv.org/abs/hep-ph/9807565)
 
 ## For users
 
