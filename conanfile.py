@@ -20,6 +20,12 @@ class LoopToolsConan(ConanFile):
     generators = ["cmake", "make", "pkg_config"]
     _source_subfolder = "LoopTools-{}".format(version)
 
+    def _have_fortran_compiler(self):
+        return tools.which("gfortran") != None or tools.which("ifort") != None
+
+    def _have_c_compiler(self):
+        return tools.which("gcc") != None or tools.which("clang") != None
+
     def source(self):
         src_file = "http://www.feynarts.de/looptools/LoopTools-{}.tar.gz".format(self.version)
 
@@ -43,19 +49,20 @@ class LoopToolsConan(ConanFile):
     def system_requirements(self):
         installer = SystemPackageTool()
 
-        if tools.os_info.is_linux:
-            if tools.os_info.with_pacman or tools.os_info.with_yum or tools.os_info.with_zypper:
-                installer.install("gcc")
-                installer.install("gcc-fortran")
-            else:
-                installer.install("gcc")
-                installer.install("gfortran")
-                versionfloat = Version(self.settings.compiler.version.value)
-                if self.settings.compiler == "gcc":
-                    if versionfloat < "5.0":
-                        installer.install("libgfortran-{}-dev".format(versionfloat))
-                    else:
-                        installer.install("libgfortran-{}-dev".format(int(versionfloat)))
+        if not (self._have_fortran_compiler() and self._have_c_compiler()):
+            if tools.os_info.is_linux:
+                if tools.os_info.with_pacman or tools.os_info.with_yum or tools.os_info.with_zypper:
+                    installer.install("gcc")
+                    installer.install("gcc-fortran")
+                else:
+                    installer.install("gcc")
+                    installer.install("gfortran")
+                    versionfloat = Version(self.settings.compiler.version.value)
+                    if self.settings.compiler == "gcc":
+                        if versionfloat < "5.0":
+                            installer.install("libgfortran-{}-dev".format(versionfloat))
+                        else:
+                            installer.install("libgfortran-{}-dev".format(int(versionfloat)))
 
         if tools.os_info.is_macos and Version(self.settings.compiler.version.value) > "7.3":
             try:
