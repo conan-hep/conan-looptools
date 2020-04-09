@@ -37,7 +37,6 @@ class LoopToolsConan(ConanFile):
     def build(self):
         with tools.chdir(self._source_subfolder):
             autotools = AutoToolsBuildEnvironment(self)
-            env_build_vars = autotools.vars
             env_build_vars['CC'] = 'gcc' # clang gives relocation errors
             if self.options.fPIC:
                 env_build_vars['FFLAGS'] = '-fPIC'
