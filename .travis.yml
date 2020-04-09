@@ -1,19 +1,16 @@
 env:
    global:
      - CONAN_REFERENCE: "LoopTools/2.15"
-     - CONAN_USERNAME: "user"
-     - CONAN_LOGIN_USERNAME: "user"
-     - CONAN_CHANNEL: "channel"
-     - CONAN_UPLOAD: "UPLOAD_URL"
-     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
-     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+     - CONAN_USERNAME: "conan"
+     - CONAN_LOGIN_USERNAME: "conan"
+     - CONAN_CHANNEL: "stable"
 
 linux: &linux
    os: linux
    dist: xenial
    sudo: required
    language: python
-   python: "3.6"
+   python: "3.7"
    services:
      - docker
 osx: &osx
@@ -38,20 +35,16 @@ matrix:
         env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7
 
       - <<: *osx
-        osx_image: xcode8.3
-        env: CONAN_APPLE_CLANG_VERSIONS=8.1
-
-      - <<: *osx
-        osx_image: xcode9
-        env: CONAN_APPLE_CLANG_VERSIONS=9.0
-
-      - <<: *osx
         osx_image: xcode9.4
         env: CONAN_APPLE_CLANG_VERSIONS=9.1
 
       - <<: *osx
-        osx_image: xcode10
+        osx_image: xcode10.3
         env: CONAN_APPLE_CLANG_VERSIONS=10.0
+
+      - <<: *osx
+        osx_image: xcode11.3
+        env: CONAN_APPLE_CLANG_VERSIONS=11.0
 
 install:
   - chmod +x .travis/install.sh
