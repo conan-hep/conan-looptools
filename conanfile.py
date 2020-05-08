@@ -34,6 +34,11 @@ class LoopToolsConan(ConanFile):
         except ConanException:
             raise ConanException("Could not download source code {}".format(src_file))
 
+    def _get_march(self):
+        if   self.settings.arch == 'x86'   : return '--32'
+        elif self.settings.arch == 'x86_64': return '--64'
+        return ''
+
     def build(self):
         with tools.chdir(self._source_subfolder):
             autotools = AutoToolsBuildEnvironment(self)
@@ -42,7 +47,7 @@ class LoopToolsConan(ConanFile):
                 env_build_vars['FFLAGS'] = '-fPIC'
                 env_build_vars['CFLAGS'] = '-fPIC'
                 env_build_vars['CXXFLAGS'] = '-fPIC'
-            autotools.configure(vars=env_build_vars)
+            autotools.configure(vars=env_build_vars, args=[self._get_march()])
             autotools.make()
 
     def system_requirements(self):
