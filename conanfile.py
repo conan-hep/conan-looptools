@@ -95,7 +95,8 @@ class LoopToolsConan(ConanFile):
             self.run("gfortran --print-file-name {}".format(libname), output=out)
         except Exception as error:
             raise ConanException("Failed to run command: {}. Output: {}".format(error, out.getvalue()))
-        return os.path.dirname(os.path.normpath(out.getvalue().strip()))
+        path = os.path.normpath(out.getvalue().strip())
+        return os.path.dirname(path) if os.path.exists(path) else None
 
     def package_info(self):
         self.cpp_info.libs = ["ooptools", "gfortran", "quadmath"]
@@ -103,14 +104,20 @@ class LoopToolsConan(ConanFile):
             self.cpp_info.libs.append("m")
         self.cpp_info.libdirs = ["lib"]
 
-        # explicit paths to libgfortran and libgcc on MacOS
+        # explicit paths to libraries on MacOS
         if self.settings.os == "Macos":
-            self.cpp_info.libdirs.append(self._get_lib_path('libgfortran.dylib'))
-            self.cpp_info.libdirs.append(self._get_lib_path('libquadmath.dylib'))
+            # add path of libgfortran
+            path = self._get_lib_path('libgfortran.dylib')
+            if path: self.cpp_info.libdirs.append(path)
 
-            # add libgcc if available
+            # add path of libquadmath
+            path = self._get_lib_path('libquadmath.dylib')
+            if path: self.cpp_info.libdirs.append(path)
+
+            # add libgcc and its path, if available
             path = self._get_lib_path('libgcc.dylib')
-            if path != '.':
+            if path:
+                print("appending {}".format(path))
                 self.cpp_info.libdirs.append(path)
                 self.cpp_info.libs.append('gcc')
 
