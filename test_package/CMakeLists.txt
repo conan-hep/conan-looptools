@@ -6,10 +6,8 @@ conan_basic_setup()
 
 find_package(LoopTools REQUIRED)
 
-message("${CONAN_LIBS}")
-
 add_executable(test_looptools_f test_looptools.F)
-target_link_libraries(test_looptools_f ${CONAN_LIBS})
+target_link_libraries(test_looptools_f ${CONAN_LIBS_LOOPTOOLS})
 
 add_executable(test_looptools_c test_looptools.c)
-target_link_libraries(test_looptools_c ${CONAN_LIBS})
+target_link_libraries(test_looptools_c ${CONAN_LIBS_LOOPTOOLS})

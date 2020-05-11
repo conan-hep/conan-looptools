@@ -123,12 +123,7 @@ class LoopToolsConan(ConanFile):
             # add libgcc and its path, if available
             path = self._get_lib_path('libgcc.a')
             if path:
-                print("appending {}".format(path))
                 self.cpp_info.libdirs.append(path)
                 self.cpp_info.libs.append('gcc')
 
         self.cpp_info.libdirs = self._make_unique(self.cpp_info.libdirs)
-
-        print("os = {}".format(self.settings.os))
-        print("libs = {}".format(self.cpp_info.libs))
-        print("libdirs = {}".format(self.cpp_info.libdirs))
