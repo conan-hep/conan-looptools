@@ -85,7 +85,5 @@ class LoopToolsConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["ooptools"]
-        self.cpp_info.exelinkflags.append('-lgfortran')
         self.cpp_info.exelinkflags.append('-lquadmath')
-        self.cpp_info.exelinkflags.append('-lm')
         self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
