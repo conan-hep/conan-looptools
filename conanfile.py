@@ -110,3 +110,7 @@ class LoopToolsConan(ConanFile):
             self.cpp_info.libdirs.append(self._get_lib_path('libgfortran.dylib'))
             self.cpp_info.libdirs.append(self._get_lib_path('libquadmath.dylib'))
             self.cpp_info.libdirs.append(self._get_lib_path('libgcc.dylib'))
+
+        print("os = {}".format(self.settings.os))
+        print("libs = {}".format(self.cpp_info.libs))
+        print("libdirs = {}".format(self.cpp_info.libdirs))
