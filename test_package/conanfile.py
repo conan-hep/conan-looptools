@@ -5,7 +5,7 @@ from conans import ConanFile, CMake, tools
 
 class LooptoolsTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake"
+    generators = ["cmake", "make", "pkg_config"]
 
     def build(self):
         cmake = CMake(self)
