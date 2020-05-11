@@ -4,6 +4,12 @@ from conans.errors import ConanException
 from conans.model.version import Version
 from conans.tools import SystemPackageTool
 
+# python 2 / 3 StringIO import
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
+
 
 class LoopToolsConan(ConanFile):
     name = "LoopTools"
@@ -83,9 +89,24 @@ class LoopToolsConan(ConanFile):
         self.copy("COPYING", src=self._source_subfolder, dst="licenses", keep_path=False)
         self.copy('FindLoopTools.cmake', '.', '.')
 
+    def _get_lib_path(self, libname):
+        out = StringIO()
+        try:
+            self.run("gfortran --print-file-name {}".format(libname), output=out)
+        except Exception as error:
+            raise ConanException("Failed to run command: {}. Output: {}".format(error, out.getvalue()))
+        return os.path.dirname(os.path.normpath(out.getvalue().strip()))
+
     def package_info(self):
-        self.cpp_info.libs = ["ooptools"]
-        self.cpp_info.exelinkflags.append('-lquadmath')
+        self.cpp_info.libs = ["ooptools", "gfortran", "quadmath"]
+        if self.settings.os == "Linux":
+            self.cpp_info.libs.append("m")
         if self.settings.os == "Macos":
-            self.cpp_info.exelinkflags.append('-lgcc')
-        self.cpp_info.sharedlinkflags = self.cpp_info.exelinkflags
+            self.cpp_info.libs.append('gcc')
+        self.cpp_info.libdirs = ["lib"]
+
+        # explicit paths to libgfortran and libgcc on MacOS
+        if self.settings.os == "Macos":
+            self.cpp_info.libdirs.append(self._get_lib_path('libgfortran.dylib'))
+            self.cpp_info.libdirs.append(self._get_lib_path('libquadmath.dylib'))
+            self.cpp_info.libdirs.append(self._get_lib_path('libgcc.dylib'))
