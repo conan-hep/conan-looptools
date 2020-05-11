@@ -23,3 +23,4 @@ class LooptoolsTestConan(ConanFile):
         if not tools.cross_building(self.settings):
             os.chdir("bin")
             self.run(".%stest_looptools_f" % os.sep)
+            self.run(".%stest_looptools_c" % os.sep)

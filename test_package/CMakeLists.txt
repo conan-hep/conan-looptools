@@ -8,3 +8,6 @@ find_package(LoopTools REQUIRED)
 
 add_executable(test_looptools_f test_looptools.F)
 target_link_libraries(test_looptools_f LoopTools::LoopTools)
+
+add_executable(test_looptools_c test_looptools.c)
+target_link_libraries(test_looptools_c LoopTools::LoopTools gfortran m)
