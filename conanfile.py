@@ -21,7 +21,7 @@ class LoopToolsConan(ConanFile):
     topics = ("HEP")
     settings = "os", "compiler", "build_type", "arch"
     options = {"fPIC": [True, False]}
-    exports = ["LICENSE", "FindLoopTools.cmake"]
+    exports = ["LICENSE"]
     default_options = ("fPIC=True")
     generators = ["cmake", "make", "pkg_config"]
     _source_subfolder = "LoopTools-{}".format(version)
@@ -87,7 +87,6 @@ class LoopToolsConan(ConanFile):
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
         self.copy("COPYING", src=self._source_subfolder, dst="licenses", keep_path=False)
-        self.copy('FindLoopTools.cmake', '.', '.')
 
     def _get_lib_path(self, libname):
         out = StringIO()
