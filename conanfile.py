@@ -98,7 +98,7 @@ class LoopToolsConan(ConanFile):
         path = os.path.normpath(out.getvalue().strip())
         return os.path.dirname(path) if os.path.exists(path) else None
 
-    def _make_unique(seq):
+    def _make_unique(self, seq):
         ''' Modified version of Dave Kirby solution '''
         seen = set()
         return [x for x in seq if x not in seen and not seen.add(x)]
@@ -127,7 +127,7 @@ class LoopToolsConan(ConanFile):
                 self.cpp_info.libdirs.append(path)
                 self.cpp_info.libs.append('gcc')
 
-        self.cpp_info.libdirs = _make_unique(self.cpp_info.libdirs)
+        self.cpp_info.libdirs = self._make_unique(self.cpp_info.libdirs)
 
         print("os = {}".format(self.settings.os))
         print("libs = {}".format(self.cpp_info.libs))
