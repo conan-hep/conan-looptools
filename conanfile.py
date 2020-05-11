@@ -48,7 +48,7 @@ class LoopToolsConan(ConanFile):
                 env_build_vars['FFLAGS'] = '-fPIC'
                 env_build_vars['CFLAGS'] = '-fPIC'
                 env_build_vars['CXXFLAGS'] = '-fPIC'
-            autotools.configure(vars=env_build_vars)
+            autotools.configure(vars=env_build_vars, build=False, host=False)
             autotools.make()
 
     def system_requirements(self):
