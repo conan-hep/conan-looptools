@@ -98,6 +98,12 @@ class LoopToolsConan(ConanFile):
         path = os.path.normpath(out.getvalue().strip())
         return os.path.dirname(path) if os.path.exists(path) else None
 
+    def _make_unique(seq):
+        ''' Modified version of Dave Kirby solution '''
+        seen = set()
+        return [x for x in seq if x not in seen and not seen.add(x)]
+
+
     def package_info(self):
         self.cpp_info.libs = ["ooptools", "gfortran", "quadmath"]
         if self.settings.os == "Linux":
@@ -115,11 +121,13 @@ class LoopToolsConan(ConanFile):
             if path: self.cpp_info.libdirs.append(path)
 
             # add libgcc and its path, if available
-            path = self._get_lib_path('libgcc.dylib')
+            path = self._get_lib_path('libgcc.a')
             if path:
                 print("appending {}".format(path))
                 self.cpp_info.libdirs.append(path)
                 self.cpp_info.libs.append('gcc')
+
+        self.cpp_info.libdirs = _make_unique(self.cpp_info.libdirs)
 
         print("os = {}".format(self.settings.os))
         print("libs = {}".format(self.cpp_info.libs))
